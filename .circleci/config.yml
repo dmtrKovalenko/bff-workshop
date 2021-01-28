@@ -15,9 +15,10 @@ workflows:
     jobs:
       - cypress/install:
           yarn: true
+          working_directory: bff-workshop
       - cypress/run:
           executor: chrome-postgres
-          parallelism: 2
+          working_directory: bff-workshop
           # make sure app has been installed and built
           # before running tests across multiple machines
           # this avoids installing same dependencies 10 times
