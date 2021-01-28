@@ -1,0 +1,39 @@
+version: 2.1
+orbs:
+  cypress: cypress-io/cypress@1
+executors:
+  chrome-postgres:
+    docker:
+      - image: 'cypress/node13.8.0-chrome81-ff75'
+      - image: circleci/postgres:9.6.2-alpine
+        environment:
+          POSTGRES_DB: postgres
+          POSTGRES_PASSWORD: password
+          POSTGRES_USER: postgres
+workflows:
+  build:
+    jobs:
+      - cypress/install:
+          yarn: true
+      - cypress/run:
+          executor: chrome-postgres
+          parallelism: 2
+          # make sure app has been installed and built
+          # before running tests across multiple machines
+          # this avoids installing same dependencies 10 times
+          requires:
+            - cypress/install
+          browser: chrome
+          # notice a trick to avoid re-installing dependencies
+          # in this job - a do-nothing "install-command" parameter
+          install-command: echo 'Nothing to install in this job'
+          yarn: true
+          # do not store into workspace for the next jobs
+          no-workspace: true
+          # we are not going to use results from this job anywhere else
+          record: false
+          pre-steps:
+            - run: yarn workspace services run db-migrate
+            - run: yarn workspace services run db-seed
+          start: yarn start 
+          wait-on: 'http://localhost:3000'
