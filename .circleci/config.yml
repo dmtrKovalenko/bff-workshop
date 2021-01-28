@@ -33,9 +33,7 @@ workflows:
           no-workspace: true
           # we are not going to use results from this job anywhere else
           record: false
-          pre-steps:
-            - run: yarn workspace services run db-migrate
-            - run: yarn workspace services run db-seed
           start: yarn start 
           wait-on: 'http://localhost:3000'
+          build: yarn workspace services run db-migrate && yarn workspace services run db-seed
           command: yarn workspace frontend run cypress run
