@@ -13,6 +13,10 @@ class CustomersApi extends RESTDataSource {
   async getCustomer(id) {
     return this.get(`customers/${id}`)
   }
+
+  async updateCustomer(id, customer) { 
+    return this.post(`customers/${id}`, {...customer})
+  }
 }
 
 module.exports = CustomersApi;

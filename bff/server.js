@@ -9,6 +9,9 @@ const resolvers = {
     customers: (_source, _args, { dataSources }) => dataSources.customersApi.getAllCustomers(),
     customer: (_source, args, { dataSources }) => dataSources.customersApi.getCustomer(args.id),
   },
+  Mutation: {
+    changeCustomer: (_source, { id, customer }, { dataSources }) => dataSources.customersApi.updateCustomer(id, customer)
+  },
   Customer: {
     job: (source, _args, { dataSources }) => {
       return dataSources.jobsApi.getJob(source.jobId)
