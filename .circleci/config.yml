@@ -38,3 +38,4 @@ workflows:
             - run: yarn workspace services run db-seed
           start: yarn start 
           wait-on: 'http://localhost:3000'
+          command: yarn workspace frontend run cypress run
