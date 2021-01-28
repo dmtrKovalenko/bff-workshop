@@ -34,6 +34,7 @@ export type Customer = {
   createdAt: Maybe<Scalars['String']>;
   updatedAt: Maybe<Scalars['String']>;
   job: Maybe<Job>;
+  jobBatched: Maybe<Job>;
 };
 
 export type Query = {
@@ -61,7 +62,7 @@ export type CustomersQuery = (
   & { customers: Maybe<Array<Maybe<(
     { __typename?: 'Customer' }
     & Pick<Customer, 'name' | 'email'>
-    & { job: Maybe<(
+    & { jobBatched: Maybe<(
       { __typename?: 'Job' }
       & Pick<Job, 'title'>
     )> }
@@ -74,7 +75,7 @@ export const CustomersDocument = gql`
   customers {
     name
     email
-    job {
+    jobBatched {
       title
     }
   }

@@ -7,10 +7,14 @@ const JobsApi = require("./data/JobsApi");
 const resolvers = {
   Query: {
     customers: (_source, _args, { dataSources }) => dataSources.customersApi.getAllCustomers(),
+    customer: (_source, args, { dataSources }) => dataSources.customersApi.getCustomer(args.id),
   },
   Customer: {
     job: (source, _args, { dataSources }) => {
       return dataSources.jobsApi.getJob(source.jobId)
+    },
+    jobBatched: (source, _args, { dataSources }) => {
+      return dataSources.jobsApi.getJobBatched(source.jobId)
     }
   }
 };

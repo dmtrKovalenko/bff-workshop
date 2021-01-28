@@ -2,7 +2,7 @@ query customers {
   customers {
     name
     email
-    job {
+    jobBatched {
       title
     }
   }

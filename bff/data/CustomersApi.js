@@ -9,6 +9,10 @@ class CustomersApi extends RESTDataSource {
   async getAllCustomers(i) {
     return this.get(`customers`);
   } 
+
+  async getCustomer(id) {
+    return this.get(`customers/${id}`)
+  }
 }
 
 module.exports = CustomersApi;

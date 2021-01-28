@@ -18,6 +18,7 @@ const typeDefs = gql`
     createdAt: String
     updatedAt: String
     job: Job
+    jobBatched: Job
   }
 
   # The "Query" type is special: it lists all of the available queries that
