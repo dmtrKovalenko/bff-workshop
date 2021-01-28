@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node server.js",
     "db-seed": "node scripts/seed.js",
-    "db-migrate": "prisma migrate"
+    "db-migrate": "prisma migrate deploy --preview-feature"
   },
   "dependencies": {
     "@prisma/client": "^2.15.0",
