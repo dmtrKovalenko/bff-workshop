@@ -1,0 +1,16 @@
+{
+  "name": "bff-workshop",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "private": true,
+  "workspaces": ["bff", "frontend", "services"],
+  "scripts": {
+    "setup": "node scripts/setup.js",
+    "codegen": "yarn workspace frontend run codegen",
+    "start": "concurrently \"yarn workspace services run start\" \"yarn workspace bff run start\" \"yarn workspace frontend run start\""
+  },
+  "dependencies": {
+    "concurrently": "5.3.0"
+  }
+}

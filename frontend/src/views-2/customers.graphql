@@ -1,0 +1,9 @@
+query customers {
+  customers {
+    name
+    email
+    job {
+      title
+    }
+  }
+}

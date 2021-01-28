@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "sourceMap": true,
+    "noEmit": true,
+    "strict": true,
+    "lib": ["esnext"],
+    "esModuleInterop": true
+  },
+  "include": [
+    "server.js",
+    "scripts/seed.js"
+  ]
+}
