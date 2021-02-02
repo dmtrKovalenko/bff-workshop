@@ -1,0 +1,15 @@
+query trips {
+  trips {
+    _id
+    collapsedItem {
+      id
+      status
+      tripStart
+      email
+    }
+    driver {
+      equipment
+      emails
+    }
+  }
+}
