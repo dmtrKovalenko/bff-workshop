@@ -1,6 +1,7 @@
 import { CustomersTable } from "./views/CustomersTable";
 import { CustomersTable2 } from "./views-2/CustomersTable2";
 import { Trips } from './views/Trips'
+import { Trips2 } from './views-2/Trips2'
 
 import {
   BrowserRouter as Router,
@@ -22,6 +23,9 @@ export default function App() {
           </Route>
           <Route path="/trips">
             <Trips />
+          </Route>
+          <Route path="/trips2">
+            <Trips2 />
           </Route>
           <Route path="/">
             <Redirect to="/customers" />

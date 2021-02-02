@@ -1,0 +1,15 @@
+query trips($status: [String!]!, $paginate: Paginate!) {
+  trips(status: $status, paginate: $paginate) {
+    _id
+    collapsedItem {
+      id
+      status
+      tripStart
+      email
+    }
+    driver {
+      equipment
+      emails
+    }
+  }
+}

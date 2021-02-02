@@ -37,15 +37,53 @@ export type Customer = {
   jobBatched: Maybe<Job>;
 };
 
+export type Driver = {
+  __typename?: 'Driver';
+  name: Maybe<Scalars['String']>;
+  unitId: Maybe<Scalars['String']>;
+  equipment: Maybe<Scalars['String']>;
+  emails: Maybe<Array<Maybe<Scalars['String']>>>;
+};
+
+export type TripCollapsedItem = {
+  __typename?: 'TripCollapsedItem';
+  id: Maybe<Scalars['String']>;
+  status: Maybe<Scalars['String']>;
+  tripStart: Maybe<Scalars['String']>;
+  email: Maybe<Scalars['String']>;
+  assignedToDriver: Maybe<Scalars['String']>;
+};
+
+export type Trip = {
+  __typename?: 'Trip';
+  _id: Maybe<Scalars['String']>;
+  itemId: Maybe<Scalars['String']>;
+  email: Maybe<Scalars['String']>;
+  collapsedItem: Maybe<TripCollapsedItem>;
+  driver: Maybe<Driver>;
+};
+
+export type Paginate = {
+  reverse: Scalars['Boolean'];
+  amount: Scalars['Int'];
+};
+
 export type Query = {
   __typename?: 'Query';
   customers: Maybe<Array<Maybe<Customer>>>;
   customer: Maybe<Customer>;
+  trips: Maybe<Array<Maybe<Trip>>>;
 };
 
 
 export type QueryCustomerArgs = {
   id: Scalars['Int'];
+};
+
+
+export type QueryTripsArgs = {
+  status: Array<Scalars['String']>;
+  paginate: Paginate;
 };
 
 export enum CacheControlScope {
@@ -65,6 +103,27 @@ export type CustomersQuery = (
     & { jobBatched: Maybe<(
       { __typename?: 'Job' }
       & Pick<Job, 'title'>
+    )> }
+  )>>> }
+);
+
+export type TripsQueryVariables = Exact<{
+  status: Array<Scalars['String']> | Scalars['String'];
+  paginate: Paginate;
+}>;
+
+
+export type TripsQuery = (
+  { __typename?: 'Query' }
+  & { trips: Maybe<Array<Maybe<(
+    { __typename?: 'Trip' }
+    & Pick<Trip, '_id'>
+    & { collapsedItem: Maybe<(
+      { __typename?: 'TripCollapsedItem' }
+      & Pick<TripCollapsedItem, 'id' | 'status' | 'tripStart' | 'email'>
+    )>, driver: Maybe<(
+      { __typename?: 'Driver' }
+      & Pick<Driver, 'equipment' | 'emails'>
     )> }
   )>>> }
 );
@@ -106,3 +165,47 @@ export function useCustomersLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<
 export type CustomersQueryHookResult = ReturnType<typeof useCustomersQuery>;
 export type CustomersLazyQueryHookResult = ReturnType<typeof useCustomersLazyQuery>;
 export type CustomersQueryResult = Apollo.QueryResult<CustomersQuery, CustomersQueryVariables>;
+export const TripsDocument = gql`
+    query trips($status: [String!]!, $paginate: Paginate!) {
+  trips(status: $status, paginate: $paginate) {
+    _id
+    collapsedItem {
+      id
+      status
+      tripStart
+      email
+    }
+    driver {
+      equipment
+      emails
+    }
+  }
+}
+    `;
+
+/**
+ * __useTripsQuery__
+ *
+ * To run a query within a React component, call `useTripsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useTripsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useTripsQuery({
+ *   variables: {
+ *      status: // value for 'status'
+ *      paginate: // value for 'paginate'
+ *   },
+ * });
+ */
+export function useTripsQuery(baseOptions: Apollo.QueryHookOptions<TripsQuery, TripsQueryVariables>) {
+        return Apollo.useQuery<TripsQuery, TripsQueryVariables>(TripsDocument, baseOptions);
+      }
+export function useTripsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<TripsQuery, TripsQueryVariables>) {
+          return Apollo.useLazyQuery<TripsQuery, TripsQueryVariables>(TripsDocument, baseOptions);
+        }
+export type TripsQueryHookResult = ReturnType<typeof useTripsQuery>;
+export type TripsLazyQueryHookResult = ReturnType<typeof useTripsLazyQuery>;
+export type TripsQueryResult = Apollo.QueryResult<TripsQuery, TripsQueryVariables>;
