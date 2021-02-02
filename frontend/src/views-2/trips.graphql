@@ -1,5 +1,5 @@
-query trips {
-  trips {
+query trips($status: [String!]!, $paginate: Paginate!) {
+  trips(status: $status, paginate: $paginate) {
     _id
     collapsedItem {
       id

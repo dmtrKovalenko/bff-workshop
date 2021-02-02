@@ -3,16 +3,16 @@ const AutomatizeDataSource = require("./AutomatizeDataSource");
 module.exports = class TripsApi extends (
   AutomatizeDataSource
 ) {
-  async getTrips() {
+  async getTrips(status, paginate) {
     return this.post("io/trips/search", {
       params: {
-        status: ["Needs Review", "In Progress"],
+        status,
       },
+      paginate,
       projection: {
         "collapsedItem.geoJson": 0,
         "collapsedItem.predictedRoute": 0,
       },
-      paginate: { reverse: true, amount: 25 },
     }).then((res) => res.results);
   }
 };

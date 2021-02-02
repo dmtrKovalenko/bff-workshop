@@ -63,6 +63,11 @@ export type Trip = {
   driver: Maybe<Driver>;
 };
 
+export type Paginate = {
+  reverse: Scalars['Boolean'];
+  amount: Scalars['Int'];
+};
+
 export type Query = {
   __typename?: 'Query';
   customers: Maybe<Array<Maybe<Customer>>>;
@@ -73,6 +78,12 @@ export type Query = {
 
 export type QueryCustomerArgs = {
   id: Scalars['Int'];
+};
+
+
+export type QueryTripsArgs = {
+  status: Array<Scalars['String']>;
+  paginate: Paginate;
 };
 
 export enum CacheControlScope {
@@ -96,7 +107,10 @@ export type CustomersQuery = (
   )>>> }
 );
 
-export type TripsQueryVariables = Exact<{ [key: string]: never; }>;
+export type TripsQueryVariables = Exact<{
+  status: Array<Scalars['String']> | Scalars['String'];
+  paginate: Paginate;
+}>;
 
 
 export type TripsQuery = (
@@ -152,8 +166,8 @@ export type CustomersQueryHookResult = ReturnType<typeof useCustomersQuery>;
 export type CustomersLazyQueryHookResult = ReturnType<typeof useCustomersLazyQuery>;
 export type CustomersQueryResult = Apollo.QueryResult<CustomersQuery, CustomersQueryVariables>;
 export const TripsDocument = gql`
-    query trips {
-  trips {
+    query trips($status: [String!]!, $paginate: Paginate!) {
+  trips(status: $status, paginate: $paginate) {
     _id
     collapsedItem {
       id
@@ -181,10 +195,12 @@ export const TripsDocument = gql`
  * @example
  * const { data, loading, error } = useTripsQuery({
  *   variables: {
+ *      status: // value for 'status'
+ *      paginate: // value for 'paginate'
  *   },
  * });
  */
-export function useTripsQuery(baseOptions?: Apollo.QueryHookOptions<TripsQuery, TripsQueryVariables>) {
+export function useTripsQuery(baseOptions: Apollo.QueryHookOptions<TripsQuery, TripsQueryVariables>) {
         return Apollo.useQuery<TripsQuery, TripsQueryVariables>(TripsDocument, baseOptions);
       }
 export function useTripsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<TripsQuery, TripsQueryVariables>) {

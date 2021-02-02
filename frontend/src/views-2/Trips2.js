@@ -1,3 +1,4 @@
+// @ts-check
 import * as React from "react";
 import {
   Table,
@@ -9,17 +10,21 @@ import {
 import { useTripsQuery } from "../generated/graphql";
 
 export function Trips2() {
-  const {
-    loading: loadingTrips,
-    error: errorTrips,
-    data,
-  } = useTripsQuery();
+  const { loading, error, data } = useTripsQuery({
+    variables: {
+      status: ["Needs Review", "In Progress"],
+      paginate: {
+        amount: 25,
+        reverse: true,
+      },
+    },
+  });
 
-  if (loadingTrips) {
+  if (loading) {
     return "loading...";
   }
 
-  if (errorTrips || !data) {
+  if (error || !data) {
     return "something went wrong";
   }
 
@@ -28,7 +33,7 @@ export function Trips2() {
       <Typography variant="h2"> Trip </Typography>
       <Table>
         <TableBody>
-          {data.trips.map(trip => {
+          {data.trips?.map((trip) => {
             return (
               <TableRow key={trip?._id}>
                 <TableCell>{trip?.collapsedItem?.status}</TableCell>

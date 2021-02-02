@@ -12,7 +12,8 @@ const resolvers = {
       dataSources.customersApi.getAllCustomers(),
     customer: (_source, args, { dataSources }) =>
       dataSources.customersApi.getCustomer(args.id),
-    trips: (_source, _args, { dataSources }) => dataSources.tripsApi.getTrips(),
+    trips: (_source, args, { dataSources }) =>
+      dataSources.tripsApi.getTrips(args.status, args.paginate),
   },
   Customer: {
     job: (source, _args, { dataSources }) => {
